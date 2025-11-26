@@ -2,6 +2,13 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Check } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 
 interface CartItem {
   productId: number;
@@ -19,7 +26,11 @@ interface FeaturedProductsProps {
   isInCart?: (productId: number, size?: string) => boolean;
 }
 
-export function FeaturedProducts({ onProductClick, addToCart, isInCart }: FeaturedProductsProps) {
+export function FeaturedProducts({
+  onProductClick,
+  addToCart,
+  isInCart,
+}: FeaturedProductsProps) {
   const products = [
     {
       id: 1,
@@ -69,6 +80,206 @@ export function FeaturedProducts({ onProductClick, addToCart, isInCart }: Featur
         "https://images.unsplash.com/photo-1731404617461-e0eeeeefcf7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzd2VhdGVyJTIwdGV4dHVyZSUyMGNsb3NlfGVufDF8fHx8MTc2MjkwMTkyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
     },
+    {
+      id: 5,
+      name: "Бежевая куртка",
+      price: "12 990 ₽",
+      sizes: ["S", "M", "L", "XL"],
+      tags: ["premium"],
+      images: [
+        "https://images.unsplash.com/photo-1665815844395-06f64f44b5e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwamFja2V0JTIwYmVpZ2V8ZW58MXx8fHwxNzY0MTUxNzk1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 6,
+      name: "Черная водолазка",
+      price: "3 990 ₽",
+      sizes: ["XS", "S", "M", "L", "XL"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1591470481729-2bcc11e3acb8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMHR1cnRsZW5lY2slMjBzd2VhdGVyfGVufDF8fHx8MTc2NDE1MTc5NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 7,
+      name: "Белые кроссовки",
+      price: "9 990 ₽",
+      sizes: ["36", "37", "38", "39", "40", "41"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1573875133340-0b589f59a8c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNuZWFrZXJzJTIwbWluaW1hbHxlbnwxfHx8fDE3NjQwOTM5MDV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 8,
+      name: "Джинсы синие",
+      price: "5 990 ₽",
+      sizes: ["28", "29", "30", "31", "32"],
+      tags: ["sale"],
+      images: [
+        "https://images.unsplash.com/photo-1639602182178-2dc689354103?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZW5pbSUyMGplYW5zJTIwYmx1ZXxlbnwxfHx8fDE3NjQxMDIzNzN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 9,
+      name: "Кожаные ботинки",
+      price: "14 990 ₽",
+      sizes: ["39", "40", "41", "42", "43"],
+      tags: ["premium"],
+      images: [
+        "https://images.unsplash.com/photo-1638158980051-f7e67291efed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwYm9vdHMlMjBicm93bnxlbnwxfHx8fDE3NjQwNzIyNjN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 10,
+      name: "Шерстяное пальто",
+      price: "19 990 ₽",
+      sizes: ["S", "M", "L"],
+      tags: ["premium"],
+      images: [
+        "https://images.unsplash.com/photo-1761766319959-70f832bee4a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29sJTIwY29hdCUyMGdyYXl8ZW58MXx8fHwxNzY0MTUxNzk3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 11,
+      name: "Шелковая блузка",
+      price: "6 990 ₽",
+      sizes: ["XS", "S", "M", "L"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1694243382362-14da84ba6a2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWxrJTIwYmxvdXNlJTIwd2hpdGV8ZW58MXx8fHwxNzY0MTUxNzk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 12,
+      name: "Вязаный кардиган",
+      price: "8 490 ₽",
+      sizes: ["S", "M", "L", "XL"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1737056207688-acc991990309?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrbml0JTIwY2FyZGlnYW4lMjBiZWlnZXxlbnwxfHx8fDE3NjQxNTE3OTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 13,
+      name: "Кожаная сумка",
+      price: "11 990 ₽",
+      sizes: ["Единый"],
+      tags: ["premium"],
+      images: [
+        "https://images.unsplash.com/photo-1760624294514-ca40aafe3d96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwYmFnJTIwYmxhY2t8ZW58MXx8fHwxNzY0MTUxNzk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 14,
+      name: "Соломенная шляпа",
+      price: "2 990 ₽",
+      sizes: ["S", "M", "L"],
+      tags: ["sale"],
+      images: [
+        "https://images.unsplash.com/photo-1657615702887-2c3071edcee6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW1tZXIlMjBoYXQlMjBzdHJhd3xlbnwxfHx8fDE3NjQxNTE3OTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 15,
+      name: "Базовая футболка",
+      price: "1 990 ₽",
+      sizes: ["XS", "S", "M", "L", "XL"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1581655353564-df123a1eb820?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3R0b24lMjB0c2hpcnQlMjBiYXNpY3xlbnwxfHx8fDE3NjQxNTE3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 16,
+      name: "Черная юбка миди",
+      price: "5 490 ₽",
+      sizes: ["XS", "S", "M", "L"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1591079823942-a86a154ccb05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaWRpJTIwc2tpcnQlMjBibGFja3xlbnwxfHx8fDE3NjQxNTE3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 17,
+      name: "Синий блейзер",
+      price: "13 990 ₽",
+      sizes: ["S", "M", "L", "XL"],
+      tags: ["premium"],
+      images: [
+        "https://images.unsplash.com/photo-1740710748146-a15d840d6f40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGF6ZXIlMjBuYXZ5JTIwYmx1ZXxlbnwxfHx8fDE3NjQxNTE4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 18,
+      name: "Кашемировый шарф",
+      price: "7 490 ₽",
+      sizes: ["Единый"],
+      tags: ["premium"],
+      images: [
+        "https://images.unsplash.com/photo-1571669829615-616b9e255d4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXNobWVyZSUyMHNjYXJmJTIwZ3JheXxlbnwxfHx8fDE3NjQxNTE4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 19,
+      name: "Ботильоны кожаные",
+      price: "12 490 ₽",
+      sizes: ["36", "37", "38", "39", "40"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1762339107598-c3bf3036559f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmtsZSUyMGJvb3RzJTIwbGVhdGhlcnxlbnwxfHx8fDE3NjQxNTE4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 20,
+      name: "Льняные шорты",
+      price: "3 490 ₽",
+      sizes: ["S", "M", "L"],
+      tags: ["sale"],
+      images: [
+        "https://images.unsplash.com/photo-1710179380559-d6bad3299327?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaW5lbiUyMHNob3J0cyUyMGJlaWdlfGVufDF8fHx8MTc2NDEzODE1Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 21,
+      name: "Полосатая рубашка",
+      price: "4 490 ₽",
+      sizes: ["S", "M", "L", "XL"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1760287363713-a864ca9b1b1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHJpcGVkJTIwc2hpcnQlMjBjb3R0b258ZW58MXx8fHwxNzY0MTUxODAyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 22,
+      name: "Солнцезащитные очки",
+      price: "4 990 ₽",
+      sizes: ["Единый"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1654198297877-36841e3a8e5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW5nbGFzc2VzJTIwY2xhc3NpYyUyMGJsYWNrfGVufDF8fHx8MTc2NDE1MTgwMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 23,
+      name: "Кросс-боди сумка",
+      price: "6 990 ₽",
+      sizes: ["Единый"],
+      tags: [],
+      images: [
+        "https://images.unsplash.com/photo-1709899629440-64da054379d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9zc2JvZHklMjBiYWclMjBsZWF0aGVyfGVufDF8fHx8MTc2NDA5Mjk5Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 24,
+      name: "Вязаное платье",
+      price: "7 990 ₽",
+      sizes: ["S", "M", "L"],
+      tags: ["sale"],
+      images: [
+        "https://images.unsplash.com/photo-1670080589800-6416c8ce8a14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrbml0JTIwZHJlc3MlMjBtaW5pbWFsfGVufDF8fHx8MTc2NDE1MTgwNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
   ];
 
   const renderTag = (tag: string) => {
@@ -103,6 +314,11 @@ export function FeaturedProducts({ onProductClick, addToCart, isInCart }: Featur
   return (
     <section className="py-4 md:py-20 px-2 bg-gray-50">
       <div className="container mx-auto max-w-6xl">
+        <div>
+          <h3 className="text-lg md:text-3xl tracking-wide md:tracking-wider uppercase mb-4 md:mb-8">
+            Популярные товары
+          </h3>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
           {products.map((product) => (
             <ProductCard
@@ -147,6 +363,57 @@ function ProductCard({
   const [touchStart, setTouchStart] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string>("");
+
+  // Проверяем, добавлен ли товар с каким-либо размером в корзину
+  const productInCart = isInCart
+    ? product.sizes.some((size) => isInCart(product.id, size))
+    : false;
+
+  // Проверяем, есть ли только один размер
+  const hasSingleSize = product.sizes.length === 1;
+
+  const handleAddToCart = () => {
+    if (!selectedSize) return;
+
+    const priceString = product.price
+      .replace(/\s/g, "")
+      .replace("₽", "");
+    const item: CartItem = {
+      productId: product.id,
+      name: product.name,
+      price: parseInt(priceString, 10),
+      size: selectedSize,
+      quantity: 1,
+      image: product.images[0],
+      tags: product.tags,
+    };
+
+    addToCart?.(item);
+    setIsDialogOpen(false);
+    setSelectedSize("");
+  };
+
+  // Функция для мгновенного добавления товара с одним размером
+  const handleAddToCartDirectly = () => {
+    if (!hasSingleSize || productInCart) return;
+
+    const priceString = product.price
+      .replace(/\s/g, "")
+      .replace("₽", "");
+    const item: CartItem = {
+      productId: product.id,
+      name: product.name,
+      price: parseInt(priceString, 10),
+      size: product.sizes[0],
+      quantity: 1,
+      image: product.images[0],
+      tags: product.tags,
+    };
+
+    addToCart?.(item);
+  };
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
@@ -162,7 +429,7 @@ function ProductCard({
 
   const handleTouchEnd = () => {
     setIsDragging(false);
-    
+
     const swipeThreshold = 50;
 
     if (dragOffset > swipeThreshold) {
@@ -191,15 +458,18 @@ function ProductCard({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div 
+        <div
           className="flex h-full transition-transform duration-300 ease-out"
           style={{
             transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
-            transitionDuration: isDragging ? '0ms' : '300ms'
+            transitionDuration: isDragging ? "0ms" : "300ms",
           }}
         >
           {product.images.map((image, index) => (
-            <div key={index} className="w-full h-full flex-shrink-0">
+            <div
+              key={index}
+              className="w-full h-full flex-shrink-0"
+            >
               <ImageWithFallback
                 src={image}
                 alt={`${product.name} - фото ${index + 1}`}
@@ -236,7 +506,7 @@ function ProductCard({
       </div>
 
       <div className="p-3 md:p-4 flex flex-col flex-1">
-        <h3 
+        <h3
           className="text-sm md:text-base tracking-wide mb-2 text-black cursor-pointer hover:text-gray-600 transition-colors"
           onClick={() => onProductClick?.(product.id)}
         >
@@ -248,25 +518,89 @@ function ProductCard({
           {product.price}
         </p>
 
-        <div className="flex gap-1 mb-3 overflow-x-auto scrollbar-hide">
-          {product.sizes.map((size) => (
-            <span
-              key={size}
-              className="text-[10px] md:text-xs px-2 py-1 border border-gray-200 text-gray-600 whitespace-nowrap flex-shrink-0"
-            >
-              {size}
-            </span>
-          ))}
-        </div>
+        {/* Скрываем секцию с размерами, если размер только один */}
+        {!hasSingleSize && (
+          <div className="flex gap-1 mb-3 overflow-x-auto scrollbar-hide">
+            {product.sizes.map((size) => (
+              <span
+                key={size}
+                className="text-[10px] md:text-xs px-2 py-1 border border-gray-200 text-gray-600 whitespace-nowrap flex-shrink-0"
+              >
+                {size}
+              </span>
+            ))}
+          </div>
+        )}
 
         <Button
           variant="outline"
-          className="w-full mt-auto h-8 md:h-9 text-xs border-black text-black hover:bg-black hover:text-white transition-colors"
-          onClick={() => onProductClick?.(product.id)}
+          className={`w-full mt-auto h-8 md:h-9 text-xs transition-colors ${
+            productInCart
+              ? "border-gray-300 text-gray-400 bg-gray-50 cursor-default"
+              : "border-black text-black hover:bg-black hover:text-white"
+          }`}
+          onClick={() =>
+            !productInCart &&
+            (hasSingleSize
+              ? handleAddToCartDirectly()
+              : setIsDialogOpen(true))
+          }
+          disabled={productInCart}
         >
-          В корзину
+          {productInCart ? "В корзине" : "В корзину"}
         </Button>
       </div>
+
+      {/* Диалог выбора размера */}
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+      >
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Выберите размер</DialogTitle>
+            <DialogDescription>
+              {product.name} — {product.price}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid grid-cols-5 gap-2 py-4">
+            {product.sizes.map((size) => (
+              <button
+                key={size}
+                onClick={() => setSelectedSize(size)}
+                className={`px-3 py-2 border rounded transition-colors ${
+                  selectedSize === size
+                    ? "border-black bg-black text-white"
+                    : "border-gray-200 hover:border-gray-400"
+                }`}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                setIsDialogOpen(false);
+                setSelectedSize("");
+              }}
+            >
+              Отмена
+            </Button>
+            <Button
+              className="flex-1 bg-black text-white hover:bg-gray-800"
+              onClick={handleAddToCart}
+              disabled={!selectedSize}
+            >
+              Добавить в корзину
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

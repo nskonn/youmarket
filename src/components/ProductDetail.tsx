@@ -3,6 +3,13 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { ArrowLeft, Minus, Plus, ShoppingBag, Check } from "lucide-react";
 import { BottomNav } from "./BottomNav";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 
 interface Product {
   id: number;
@@ -109,6 +116,8 @@ export function ProductDetail({ productId, onBack, onCartClick, onProfileClick, 
   const [touchStart, setTouchStart] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogSize, setDialogSize] = useState<string>("");
 
   if (!product) {
     return (
@@ -185,7 +194,8 @@ export function ProductDetail({ productId, onBack, onCartClick, onProfileClick, 
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert("Пожалуйста, выберите размер");
+      // Открываем модальное окно для выбора размера
+      setIsDialogOpen(true);
       return;
     }
     const priceString = product.price.replace(/\s/g, '').replace('₽', '');
@@ -200,6 +210,27 @@ export function ProductDetail({ productId, onBack, onCartClick, onProfileClick, 
     };
     addToCart(item);
     alert(`Добавлено в корзину: ${product.name}, размер ${selectedSize}, количество: ${quantity}`);
+  };
+
+  const handleDialogAddToCart = () => {
+    if (!dialogSize) return;
+    
+    // Устанавливаем выбранный размер в основное состояние
+    setSelectedSize(dialogSize);
+    
+    const priceString = product.price.replace(/\s/g, '').replace('₽', '');
+    const item: CartItem = {
+      productId: product.id,
+      name: product.name,
+      price: parseInt(priceString, 10),
+      size: dialogSize,
+      quantity: quantity,
+      image: product.images[0],
+      tags: product.tags,
+    };
+    addToCart(item);
+    setIsDialogOpen(false);
+    setDialogSize("");
   };
 
   return (
@@ -218,155 +249,204 @@ export function ProductDetail({ productId, onBack, onCartClick, onProfileClick, 
         </div>
       </header>
 
-      {/* Image Gallery */}
-      <div 
-        className="relative aspect-[3/4] bg-gray-100 overflow-hidden"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
+      {/* Container with max-width */}
+      <div className="max-w-lg mx-auto">
+        {/* Image Gallery */}
         <div 
-          className="flex h-full transition-transform duration-300 ease-out"
-          style={{
-            transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
-            transitionDuration: isDragging ? '0ms' : '300ms'
-          }}
+          className="relative aspect-[3/4] bg-gray-100 overflow-hidden"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
-          {product.images.map((image, index) => (
-            <div key={index} className="w-full h-full flex-shrink-0">
-              <ImageWithFallback
-                src={image}
-                alt={`${product.name} - фото ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
+          <div 
+            className="flex h-full transition-transform duration-300 ease-out"
+            style={{
+              transform: `translateX(calc(-${currentImageIndex * 100}% + ${isDragging ? dragOffset : 0}px))`,
+              transitionDuration: isDragging ? '0ms' : '300ms'
+            }}
+          >
+            {product.images.map((image, index) => (
+              <div key={index} className="w-full h-full flex-shrink-0">
+                <ImageWithFallback
+                  src={image}
+                  alt={`${product.name} - фото ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Image Indicators */}
+          {product.images.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+              {product.images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === currentImageIndex
+                      ? "bg-white/90 w-6"
+                      : "bg-white/50"
+                  }`}
+                />
+              ))}
             </div>
-          ))}
+          )}
+
+          {/* Tags */}
+          {product.tags && product.tags.length > 0 && (
+            <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+              {product.tags.map((tag, index) => (
+                <div key={index}>{renderTag(tag)}</div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Image Indicators */}
-        {product.images.length > 1 && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-            {product.images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentImageIndex
-                    ? "bg-white/90 w-6"
-                    : "bg-white/50"
-                }`}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Tags */}
-        {product.tags && product.tags.length > 0 && (
-          <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-            {product.tags.map((tag, index) => (
-              <div key={index}>{renderTag(tag)}</div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Product Info */}
-      <div className="px-4 py-6 pb-32 md:pb-6">
-        <h2 className="text-xl tracking-wide mb-2">{product.name}</h2>
-        <p className={`text-2xl mb-4 ${getPriceClass(product.tags)}`}>
-          {product.price}
-        </p>
-
-        {product.description && (
-          <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-            {product.description}
+        {/* Product Info */}
+        <div className="px-4 py-6 pb-32 md:pb-6">
+          <h2 className="text-xl tracking-wide mb-2">{product.name}</h2>
+          <p className={`text-2xl mb-4 ${getPriceClass(product.tags)}`}>
+            {product.price}
           </p>
-        )}
 
-        {/* Size Selection */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm tracking-wide">Размер</h3>
-            <button className="text-xs text-gray-500 underline">Таблица размеров</button>
+          {product.description && (
+            <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+              {product.description}
+            </p>
+          )}
+
+          {/* Size Selection */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm tracking-wide">Размер</h3>
+              <button className="text-xs text-gray-500 underline">Таблица размеров</button>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {product.sizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className={`px-4 py-2.5 text-sm border transition-colors ${
+                    selectedSize === size
+                      ? "border-black bg-black text-white"
+                      : "border-gray-300 text-gray-700 hover:border-gray-400"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            {product.sizes.map((size) => (
+
+          {/* Quantity */}
+          <div className="mb-6">
+            <h3 className="text-sm tracking-wide mb-3">Количество</h3>
+            <div className="flex items-center gap-4">
               <button
-                key={size}
-                onClick={() => setSelectedSize(size)}
-                className={`px-4 py-2.5 text-sm border transition-colors ${
-                  selectedSize === size
-                    ? "border-black bg-black text-white"
-                    : "border-gray-300 text-gray-700 hover:border-gray-400"
-                }`}
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                disabled={quantity === 1}
               >
-                {size}
+                <Minus className="w-4 h-4" />
               </button>
-            ))}
+              <span className="text-lg w-8 text-center">{quantity}</span>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Material & Care */}
+          {(product.material || product.care) && (
+            <div className="border-t border-gray-200 pt-6 space-y-6">
+              {product.material && (
+                <div>
+                  <h3 className="text-sm tracking-wide mb-2">Состав</h3>
+                  <p className="text-sm text-gray-600">{product.material}</p>
+                </div>
+              )}
+              
+              {product.care && (
+                <div>
+                  <h3 className="text-sm tracking-wide mb-2">Уход</h3>
+                  <ul className="space-y-1">
+                    {product.care.map((instruction, index) => (
+                      <li key={index} className="text-sm text-gray-600 flex items-start">
+                        <span className="mr-2">•</span>
+                        <span>{instruction}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Fixed Bottom Button */}
+        <div className="fixed bottom-14 left-0 right-0 p-4 bg-white border-t border-gray-200 z-40">
+          <div className="max-w-lg mx-auto">
+            {selectedSize && isInCart(product.id, selectedSize) ? (
+              <Button
+                disabled
+                className="w-full h-12 bg-gray-200 text-gray-600 cursor-default"
+              >
+                <Check className="w-5 h-5 mr-2" />
+                В корзине
+              </Button>
+            ) : (
+              <Button
+                onClick={handleAddToCart}
+                className="w-full h-12 bg-black text-white hover:bg-gray-900 transition-colors"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2" />
+                Добавить в корзину
+              </Button>
+            )}
           </div>
         </div>
 
-        {/* Quantity */}
-        <div className="mb-6">
-          <h3 className="text-sm tracking-wide mb-3">Количество</h3>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-              disabled={quantity === 1}
-            >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="text-lg w-8 text-center">{quantity}</span>
-            <button
-              onClick={() => setQuantity(quantity + 1)}
-              className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        {/* Bottom Navigation */}
+        <BottomNav onCartClick={onCartClick} onProfileClick={onProfileClick} cartItemsCount={cartItemsCount} />
 
-        {/* Material & Care */}
-        {(product.material || product.care) && (
-          <div className="border-t border-gray-200 pt-6 space-y-6">
-            {product.material && (
-              <div>
-                <h3 className="text-sm tracking-wide mb-2">Состав</h3>
-                <p className="text-sm text-gray-600">{product.material}</p>
-              </div>
-            )}
-            
-            {product.care && (
-              <div>
-                <h3 className="text-sm tracking-wide mb-2">Уход</h3>
-                <ul className="space-y-1">
-                  {product.care.map((instruction, index) => (
-                    <li key={index} className="text-sm text-gray-600 flex items-start">
-                      <span className="mr-2">•</span>
-                      <span>{instruction}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
+        {/* Dialog for size selection */}
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="max-w-md mx-auto">
+            <DialogHeader>
+              <DialogTitle>Выберите размер</DialogTitle>
+              <DialogDescription>Пожалуйста, выберите размер товара, который вы хотите добавить в корзину.</DialogDescription>
+            </DialogHeader>
+            <div className="flex gap-2 flex-wrap">
+              {product.sizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setDialogSize(size)}
+                  className={`px-4 py-2.5 text-sm border transition-colors ${
+                    dialogSize === size
+                      ? "border-black bg-black text-white"
+                      : "border-gray-300 text-gray-700 hover:border-gray-400"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+            <div className="mt-6">
+              <Button
+                onClick={handleDialogAddToCart}
+                className="w-full h-12 bg-black text-white hover:bg-gray-900 transition-colors"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2" />
+                Добавить в корзину
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      {/* Fixed Bottom Button */}
-      <div className="fixed bottom-14 left-0 right-0 p-4 bg-white border-t border-gray-200 z-40">
-        <Button
-          onClick={handleAddToCart}
-          className="w-full h-12 bg-black text-white hover:bg-gray-900 transition-colors"
-        >
-          <ShoppingBag className="w-5 h-5 mr-2" />
-          Добавить в корзину
-        </Button>
-      </div>
-
-      {/* Bottom Navigation */}
-      <BottomNav onCartClick={onCartClick} onProfileClick={onProfileClick} cartItemsCount={cartItemsCount} />
     </div>
   );
 }

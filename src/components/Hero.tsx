@@ -80,7 +80,7 @@ export function Hero() {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex gap-2 pt-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-[24px] md:px-0"
+        className="flex gap-2 pt-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-[24px] md:px-0 md:max-w-[1152px] md:mx-auto md:overflow-x-hidden"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -90,7 +90,7 @@ export function Hero() {
         {infiniteSlides.map((slide, index) => (
           <div
             key={index}
-            className="flex-shrink-0 snap-center relative h-[100px] md:h-[85vh] overflow-hidden rounded-lg md:rounded-none"
+            className="flex-shrink-0 snap-center relative h-[100px] md:h-[400px] overflow-hidden rounded-lg"
             style={{
               width: "calc(100vw - 48px)",
               maxWidth: "100%",
