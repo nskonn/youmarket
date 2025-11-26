@@ -1,3 +1,6 @@
+import {useEffect} from "react"
+import { useLocation } from 'react-router-dom';
+
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Categories } from "./components/Categories";
@@ -10,6 +13,8 @@ import { Cart } from "./components/Cart";
 import { Profile } from "./components/Profile";
 import { ProductDetail } from "./components/ProductDetail";
 import { useState } from "react";
+import './index.css';
+
 
 interface CartItem {
   id: number;
@@ -27,6 +32,19 @@ export default function App() {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const state = location.state as { scrollTo?: string } | null;
+    const targetId = state?.scrollTo || (location.hash ? location.hash.replace('#', '') : undefined);
+    if (targetId) {
+      // небольшая задержка, чтобы DOM гарантированно отрендерился
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+  }, [location]);
 
   const handleProductClick = (productId: number) => {
     setSelectedProductId(productId);

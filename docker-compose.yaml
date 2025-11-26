@@ -1,0 +1,9 @@
+name: youmarket-project
+
+services:
+    app:
+        build: .
+        container_name: youmarket_frontend
+        restart: always
+        ports:
+            - "127.0.0.1:4004:80"
