@@ -24,12 +24,14 @@ interface FeaturedProductsProps {
   onProductClick?: (productId: number) => void;
   addToCart?: (item: CartItem) => void;
   isInCart?: (productId: number, size?: string) => boolean;
+  selectedCategory?: string | null;
 }
 
 export function FeaturedProducts({
   onProductClick,
   addToCart,
   isInCart,
+  selectedCategory,
 }: FeaturedProductsProps) {
   const products = [
     {
@@ -38,6 +40,7 @@ export function FeaturedProducts({
       price: "4 990 ₽",
       sizes: ["XS", "S", "M", "L", "XL"],
       tags: ["premium"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1644954497793-9b0280236ca1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwY2xvdGhpbmclMjB3aGl0ZXxlbnwxfHx8fDE3NjI4OTU2Njd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         "https://images.unsplash.com/photo-1556630184-066f7ac4e15f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNoaXJ0JTIwbWluaW1hbHxlbnwxfHx8fDE3NjI4MTQxNDV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -50,6 +53,7 @@ export function FeaturedProducts({
       price: "8 990 ₽",
       sizes: ["S", "M", "L"],
       tags: ["sale"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1621341103818-01dada8c6ef8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwZmFzaGlvbiUyMGJlaWdlfGVufDF8fHx8MTc2Mjg5NTY2N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         "https://images.unsplash.com/photo-1636924003227-1895fc75857e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaW5lbiUyMGRyZXNzJTIwYmVpZ2V8ZW58MXx8fHwxNzYyODkyODg5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -62,6 +66,7 @@ export function FeaturedProducts({
       price: "6 490 ₽",
       sizes: ["XS", "S", "M", "L"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1653875842174-429c1b467548?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwbW9kZWwlMjBtaW5pbWFsfGVufDF8fHx8MTc2Mjg1OTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         "https://images.unsplash.com/photo-1704775989365-eebfd4659a23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc2ljJTIwdHJvdXNlcnMlMjBmYXNoaW9ufGVufDF8fHx8MTc2MjkwMTkyNnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -74,6 +79,7 @@ export function FeaturedProducts({
       price: "7 990 ₽",
       sizes: ["S", "M", "L", "XL"],
       tags: ["premium"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1731039917703-ece6578ed15e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwYWNjZXNzb3JpZXN8ZW58MXx8fHwxNzYyODk1MjY1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         "https://images.unsplash.com/photo-1711097258176-c1a4bb511aa7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29sJTIwc3dlYXRlciUyMGtuaXR8ZW58MXx8fHwxNzYyOTAxOTI3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -86,6 +92,7 @@ export function FeaturedProducts({
       price: "12 990 ₽",
       sizes: ["S", "M", "L", "XL"],
       tags: ["premium"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1665815844395-06f64f44b5e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwamFja2V0JTIwYmVpZ2V8ZW58MXx8fHwxNzY0MTUxNzk1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -96,6 +103,7 @@ export function FeaturedProducts({
       price: "3 990 ₽",
       sizes: ["XS", "S", "M", "L", "XL"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1591470481729-2bcc11e3acb8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMHR1cnRsZW5lY2slMjBzd2VhdGVyfGVufDF8fHx8MTc2NDE1MTc5NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -106,6 +114,7 @@ export function FeaturedProducts({
       price: "9 990 ₽",
       sizes: ["36", "37", "38", "39", "40", "41"],
       tags: [],
+      category: "Обувь",
       images: [
         "https://images.unsplash.com/photo-1573875133340-0b589f59a8c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHNuZWFrZXJzJTIwbWluaW1hbHxlbnwxfHx8fDE3NjQwOTM5MDV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -116,6 +125,7 @@ export function FeaturedProducts({
       price: "5 990 ₽",
       sizes: ["28", "29", "30", "31", "32"],
       tags: ["sale"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1639602182178-2dc689354103?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZW5pbSUyMGplYW5zJTIwYmx1ZXxlbnwxfHx8fDE3NjQxMDIzNzN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -126,6 +136,7 @@ export function FeaturedProducts({
       price: "14 990 ₽",
       sizes: ["39", "40", "41", "42", "43"],
       tags: ["premium"],
+      category: "Обувь",
       images: [
         "https://images.unsplash.com/photo-1638158980051-f7e67291efed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwYm9vdHMlMjBicm93bnxlbnwxfHx8fDE3NjQwNzIyNjN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -136,6 +147,7 @@ export function FeaturedProducts({
       price: "19 990 ₽",
       sizes: ["S", "M", "L"],
       tags: ["premium"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1761766319959-70f832bee4a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29sJTIwY29hdCUyMGdyYXl8ZW58MXx8fHwxNzY0MTUxNzk3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -146,6 +158,7 @@ export function FeaturedProducts({
       price: "6 990 ₽",
       sizes: ["XS", "S", "M", "L"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1694243382362-14da84ba6a2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWxrJTIwYmxvdXNlJTIwd2hpdGV8ZW58MXx8fHwxNzY0MTUxNzk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -156,6 +169,7 @@ export function FeaturedProducts({
       price: "8 490 ₽",
       sizes: ["S", "M", "L", "XL"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1737056207688-acc991990309?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrbml0JTIwY2FyZGlnYW4lMjBiZWlnZXxlbnwxfHx8fDE3NjQxNTE3OTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -166,6 +180,7 @@ export function FeaturedProducts({
       price: "11 990 ₽",
       sizes: ["Единый"],
       tags: ["premium"],
+      category: "Сумки",
       images: [
         "https://images.unsplash.com/photo-1760624294514-ca40aafe3d96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwYmFnJTIwYmxhY2t8ZW58MXx8fHwxNzY0MTUxNzk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -176,6 +191,7 @@ export function FeaturedProducts({
       price: "2 990 ₽",
       sizes: ["S", "M", "L"],
       tags: ["sale"],
+      category: "Головные уборы",
       images: [
         "https://images.unsplash.com/photo-1657615702887-2c3071edcee6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW1tZXIlMjBoYXQlMjBzdHJhd3xlbnwxfHx8fDE3NjQxNTE3OTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -186,6 +202,7 @@ export function FeaturedProducts({
       price: "1 990 ₽",
       sizes: ["XS", "S", "M", "L", "XL"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1581655353564-df123a1eb820?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3R0b24lMjB0c2hpcnQlMjBiYXNpY3xlbnwxfHx8fDE3NjQxNTE3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -196,6 +213,7 @@ export function FeaturedProducts({
       price: "5 490 ₽",
       sizes: ["XS", "S", "M", "L"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1591079823942-a86a154ccb05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaWRpJTIwc2tpcnQlMjBibGFja3xlbnwxfHx8fDE3NjQxNTE3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -206,6 +224,7 @@ export function FeaturedProducts({
       price: "13 990 ₽",
       sizes: ["S", "M", "L", "XL"],
       tags: ["premium"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1740710748146-a15d840d6f40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGF6ZXIlMjBuYXZ5JTIwYmx1ZXxlbnwxfHx8fDE3NjQxNTE4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -216,6 +235,7 @@ export function FeaturedProducts({
       price: "7 490 ₽",
       sizes: ["Единый"],
       tags: ["premium"],
+      category: "Украшения",
       images: [
         "https://images.unsplash.com/photo-1571669829615-616b9e255d4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXNobWVyZSUyMHNjYXJmJTIwZ3JheXxlbnwxfHx8fDE3NjQxNTE4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -226,6 +246,7 @@ export function FeaturedProducts({
       price: "12 490 ₽",
       sizes: ["36", "37", "38", "39", "40"],
       tags: [],
+      category: "Обувь",
       images: [
         "https://images.unsplash.com/photo-1762339107598-c3bf3036559f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmtsZSUyMGJvb3RzJTIwbGVhdGhlcnxlbnwxfHx8fDE3NjQxNTE4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -236,6 +257,7 @@ export function FeaturedProducts({
       price: "3 490 ₽",
       sizes: ["S", "M", "L"],
       tags: ["sale"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1710179380559-d6bad3299327?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaW5lbiUyMHNob3J0cyUyMGJlaWdlfGVufDF8fHx8MTc2NDEzODE1Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -246,6 +268,7 @@ export function FeaturedProducts({
       price: "4 490 ₽",
       sizes: ["S", "M", "L", "XL"],
       tags: [],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1760287363713-a864ca9b1b1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHJpcGVkJTIwc2hpcnQlMjBjb3R0b258ZW58MXx8fHwxNzY0MTUxODAyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -256,6 +279,7 @@ export function FeaturedProducts({
       price: "4 990 ₽",
       sizes: ["Единый"],
       tags: [],
+      category: "Очки",
       images: [
         "https://images.unsplash.com/photo-1654198297877-36841e3a8e5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW5nbGFzc2VzJTIwY2xhc3NpYyUyMGJsYWNrfGVufDF8fHx8MTc2NDE1MTgwMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -266,6 +290,7 @@ export function FeaturedProducts({
       price: "6 990 ₽",
       sizes: ["Единый"],
       tags: [],
+      category: "Сумки",
       images: [
         "https://images.unsplash.com/photo-1709899629440-64da054379d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9zc2JvZHklMjBiYWclMjBsZWF0aGVyfGVufDF8fHx8MTc2NDA5Mjk5Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
@@ -276,11 +301,75 @@ export function FeaturedProducts({
       price: "7 990 ₽",
       sizes: ["S", "M", "L"],
       tags: ["sale"],
+      category: "Одежда",
       images: [
         "https://images.unsplash.com/photo-1670080589800-6416c8ce8a14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrbml0JTIwZHJlc3MlMjBtaW5pbWFsfGVufDF8fHx8MTc2NDE1MTgwNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       ],
     },
+    {
+      id: 25,
+      name: "Беспроводные наушники",
+      price: "8 990 ₽",
+      sizes: ["Единый"],
+      tags: ["premium"],
+      category: "Электроника",
+      images: [
+        "https://images.unsplash.com/photo-1695634463848-4db4e47703a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aXJlbGVzcyUyMGVhcmJ1ZHMlMjB3aGl0ZXxlbnwxfHx8fDE3NjQwNzkyODZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 26,
+      name: "Смарт-часы",
+      price: "15 990 ₽",
+      sizes: ["Единый"],
+      tags: ["premium"],
+      category: "Электроника",
+      images: [
+        "https://images.unsplash.com/photo-1668069225941-37356a72faac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbWFydCUyMHdhdGNoJTIwYmxhY2t8ZW58MXx8fHwxNzY0MTUxNDgyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 27,
+      name: "Портативное зарядное устройство",
+      price: "3 990 ₽",
+      sizes: ["Единый"],
+      tags: [],
+      category: "Электроника",
+      images: [
+        "https://images.unsplash.com/photo-1574494462163-91285e2386c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwb3dlciUyMGJhbmslMjBwb3J0YWJsZSUyMGNoYXJnZXJ8ZW58MXx8fHwxNzY0MTUzNDUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 28,
+      name: "Bluetooth колонка",
+      price: "6 490 ₽",
+      sizes: ["Единый"],
+      tags: [],
+      category: "Электроника",
+      images: [
+        "https://images.unsplash.com/photo-1565209559029-9e4094301949?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibHVldG9vdGglMjBzcGVha2VyJTIwbWluaW1hbHxlbnwxfHx8fDE3NjQxNTM0NTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
+    {
+      id: 29,
+      name: "Фитнес-браслет",
+      price: "4 990 ₽",
+      sizes: ["Единый"],
+      tags: [],
+      category: "Электроника",
+      images: [
+        "https://images.unsplash.com/photo-1587377839295-298e38763d9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaXRuZXNzJTIwdHJhY2tlciUyMGJhbmR8ZW58MXx8fHwxNzY0MTUzNDUxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      ],
+    },
   ];
+
+  // Фильтруем товары по выбранной категории
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
+
+  // Определяем заголовок секции
+  const sectionTitle = selectedCategory || "Популярные товары";
 
   const renderTag = (tag: string) => {
     switch (tag) {
@@ -316,11 +405,11 @@ export function FeaturedProducts({
       <div className="container mx-auto max-w-6xl">
         <div>
           <h3 className="text-lg md:text-3xl tracking-wide md:tracking-wider uppercase mb-4 md:mb-8">
-            Популярные товары
+            {sectionTitle}
           </h3>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}

@@ -26,10 +26,15 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<"home" | "cart" | "profile" | "product">("home");
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const handleProductClick = (productId: number) => {
     setSelectedProductId(productId);
     setCurrentPage("product");
+  };
+
+  const handleCategorySelect = (categoryName: string) => {
+    setSelectedCategory(categoryName);
   };
 
   const addToCart = (item: Omit<CartItem, "id">) => {
@@ -95,11 +100,12 @@ export default function App() {
           />
           <main className="pb-14 md:pb-0">
             <Hero />
-            <Catalog />
+            <Catalog onCategorySelect={handleCategorySelect} />
             <FeaturedProducts 
               onProductClick={handleProductClick}
               addToCart={addToCart}
               isInCart={isInCart}
+              selectedCategory={selectedCategory}
             />
             <Newsletter />
           </main>

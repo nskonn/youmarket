@@ -1,6 +1,10 @@
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-export function Catalog() {
+interface CatalogProps {
+  onCategorySelect?: (categoryName: string) => void;
+}
+
+export function Catalog({ onCategorySelect }: CatalogProps) {
   const categories = [
     {
       name: "Электроника",
@@ -53,6 +57,7 @@ export function Catalog() {
               <button
                 key={category.name}
                 className="group flex-shrink-0 flex flex-col items-center gap-2 transition-opacity hover:opacity-70"
+                onClick={() => onCategorySelect?.(category.name)}
               >
                 <div className="w-22 h-18 md:w-24 md:h-24 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                   <ImageWithFallback
