@@ -629,7 +629,7 @@ export function ProductDetail({ productId, onBack, onCartClick, onProfileClick, 
         </div>
 
         {/* Product Info */}
-        <div className="px-4 py-6 pb-32 md:pb-6">
+        <div className="px-4 py-6 pb-32">
           <h2 className="text-xl tracking-wide mb-2">{product.name}</h2>
           <p className={`text-2xl mb-4 ${getPriceClass(product.tags)}`}>
             {product.price}
@@ -740,7 +740,7 @@ export function ProductDetail({ productId, onBack, onCartClick, onProfileClick, 
 
         {/* Dialog for size selection */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="max-w-md mx-auto">
+          <DialogContent className="max-w-md mx-auto bg-white">
             <DialogHeader>
               <DialogTitle>Выберите размер</DialogTitle>
               <DialogDescription>Пожалуйста, выберите размер товара, который вы хотите добавить в корзину.</DialogDescription>

@@ -14,6 +14,7 @@ import { Profile } from "./components/Profile";
 import { ProductDetail } from "./components/ProductDetail";
 import { useState } from "react";
 import './index.css';
+import './styles/globals.css';
 
 
 interface CartItem {
@@ -109,7 +110,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pb-12 md:pb-0">
       {currentPage === "home" ? (
         <>
           <Header 

@@ -37,9 +37,9 @@ export function CatalogModal({ trigger }: CatalogModalProps) {
       {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
       <SheetContent
         side="left"
-        className="w-full sm:max-w-md p-0 flex flex-col md:h-full h-[calc(100vh-3.5rem)]"
+        className="bg-white w-full sm:max-w-md p-0 flex flex-col md:h-full h-[calc(100vh-3.5rem)]"
       >
-        <SheetHeader className="p-4 border-b border-gray-100">
+        <SheetHeader className="p-4 border-b border-gray-100 bg-white">
           <SheetTitle className="tracking-wider uppercase">
             Каталог
           </SheetTitle>
